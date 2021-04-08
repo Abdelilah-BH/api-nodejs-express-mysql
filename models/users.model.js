@@ -1,10 +1,12 @@
+// const db = require("./index");
 
-module.exports = (sequelize, {Sequelize, DataTypes}) => {
-  const User = sequelize.define("user", {
-    uuid: {
+module.exports = (sequelize, {DataTypes}) => {
+  const User = sequelize.define("User", {
+    id: {
       type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV1,
-      primaryKey: true
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+      unique: true
     },
     name: {
       type: DataTypes.STRING,
@@ -31,7 +33,7 @@ module.exports = (sequelize, {Sequelize, DataTypes}) => {
       type: DataTypes.ENUM("root", "admin", "ghost"),
       allowNull: false,
       defaultValue: "ghost"
-    }
+    },
   })
 
   return User;

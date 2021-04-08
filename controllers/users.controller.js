@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
         message: "E-mail not found",
       });
     }
-    const { uuid: id, name, email, password, role } = user;
+    const { id, name, email, password, role } = user;
     const checkPassword = await bcrypt.compare(pswd, password);
     if (!checkPassword) {
       return res.status(403).json({
