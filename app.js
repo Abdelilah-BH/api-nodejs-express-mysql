@@ -25,9 +25,15 @@ app.use(express.static("public"));
 if (app.get("env") === "developement")
   app.use(morgan('tiny'))
 
-db.sequelize.sync().then(() => {
-  console.log("Mysql running");
-})
+db.sequelize
+  .query('SET FOREIGN_KEY_CHECKS = 0', {raw: true})
+  .then(function(results) {
+    db.sequelize.sync({ force: true }).then(function(err) {
+      console.log('It worked!');
+    }, function (err) { 
+      console.log('An error occurred while creating the table:', err);
+    });
+  })
 
 userRouter(app);
 
