@@ -25,7 +25,7 @@ app.use(express.static("public"));
 if (app.get("env") === "developement")
   app.use(morgan('tiny'))
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync().then(() => {
   console.log("Mysql running");
 })
 
