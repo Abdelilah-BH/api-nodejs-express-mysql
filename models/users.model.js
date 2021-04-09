@@ -1,4 +1,4 @@
-// const db = require("./index");
+const { setSaltAndPassword } = require("../helpers/user");
 
 module.exports = (sequelize, {DataTypes}) => {
   const User = sequelize.define("User", {
@@ -24,7 +24,16 @@ module.exports = (sequelize, {DataTypes}) => {
     },
     password: {
       type: DataTypes.STRING(64),
-      is: /^[0-9a-f]{64}$/i
+      is: /^[0-9a-f]{64}$/i,
+      get() {
+        return () => this.getDataValue("password");
+      }
+    },
+    salt: {
+      type: DataTypes.STRING(),
+      get() {
+        return () => this.getDataValue("salt");
+      }
     },
     phone: {
       type: DataTypes.STRING,
@@ -35,6 +44,9 @@ module.exports = (sequelize, {DataTypes}) => {
       defaultValue: "ghost"
     },
   })
+
+  User.beforeCreate(setSaltAndPassword);
+  User.beforeUpdate(setSaltAndPassword);
 
   return User;
 }

@@ -5,7 +5,7 @@ const User = db.users;
 const Op = db.Sequelize.Op;
 
 // Create and save a new User.
-exports.signUp = (req, res) => {
+exports.signUp = async (req, res) => {
   const { name, email, password, phone, role } = req.body;
   if (!name || !email || !password) {
     res.status(400).json({
@@ -13,34 +13,20 @@ exports.signUp = (req, res) => {
     });
     return;
   }
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) {
-      res.status(500).json({
-        message: err || "Some error occurred while creating a user.",
-      });
-    }
-    bcrypt.hash(password, salt, async (err, hash) => {
-      if (err) {
-        res.status(500).json({
-          message: err || "Some error occurred while creating a user.",
-        });
-      }
-      try {
-        const data = await User.create({
-          name,
-          email,
-          password: hash,
-          phone,
-          role,
-        });
-        res.json(data);
-      } catch (err) {
-        res.status(500).json({
-          message: err.message || "Some error occurred while creating a user.",
-        });
-      }
+  try {
+    const data = await User.create({
+      name,
+      email,
+      password,
+      phone,
+      role,
     });
-  });
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({
+      message: err.message || "Some error occurred while creating a user.",
+    });
+  }
 };
 
 // Login.
@@ -76,14 +62,12 @@ exports.login = async (req, res) => {
       process.env.TOKEN_KEY,
       { expiresIn: "1h" }
     );
-    res.cookie("token", token, { expiresIn: new Date() + 3600000});
-    return res
-      .status(200)
-      .json({
-        message: "Authentication successful!",
-        data: { id, name, email, role },
-        token,
-      });
+    res.cookie("token", token, { expiresIn: new Date() + 3600000 });
+    return res.status(200).json({
+      message: "Authentication successful!",
+      data: { id, name, email, role },
+      token,
+    });
   } catch (err) {
     res.status(500).json({
       message: err.message || "Some error occurred while find a user.",
