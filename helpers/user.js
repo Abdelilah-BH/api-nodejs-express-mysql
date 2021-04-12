@@ -1,21 +1,17 @@
-const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
-const generateSat = () => crypto.randomBytes(16).toString("base64");
-const encryptPassword = (plainText, salt) => {
-  return crypto
-      .createHash('RSA-SHA256')
-      .update(plainText)
-      .update(salt)
-      .digest('hex')
+const encryptPassword = (plainText) => {
+  return bcrypt.hashSync(plainText, 12);
 }
 
-const setSaltAndPassword= user => {
+const setPassword= user => {
   if(user.changed("password")) {
-    user.salt = generateSat();
-    user.password = encryptPassword(user.password(), user.salt());
+    user.password = encryptPassword(user.password());
   }
 }
 
+
+
 module.exports = {
-  setSaltAndPassword
+  setPassword
 }

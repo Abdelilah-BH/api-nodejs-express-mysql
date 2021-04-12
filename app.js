@@ -30,7 +30,7 @@ db.sequelize
     db.sequelize.sync({ force: true }).then(function(err) {
       console.log('It worked!');
     }, function (err) { 
-      console.log('An error occurred while creating the table:', err);
+      console.error('An error occurred while creating the table:', err);
     });
   })
 

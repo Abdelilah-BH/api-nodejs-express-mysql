@@ -1,4 +1,4 @@
-
+const { setPassword } = require("../helpers/user")
 module.exports = (sequelize, {DataTypes}) => {
   const User = sequelize.define("User", {
     id: {
@@ -28,12 +28,6 @@ module.exports = (sequelize, {DataTypes}) => {
         return () => this.getDataValue("password");
       }
     },
-    salt: {
-      type: DataTypes.STRING(),
-      get() {
-        return () => this.getDataValue("salt");
-      }
-    },
     phone: {
       type: DataTypes.STRING,
     },
@@ -44,8 +38,8 @@ module.exports = (sequelize, {DataTypes}) => {
     },
   })
 
-  User.beforeCreate(setSaltAndPassword);
-  User.beforeUpdate(setSaltAndPassword);
+  User.beforeCreate(setPassword);
+  User.beforeUpdate(setPassword);
 
   return User;
 }

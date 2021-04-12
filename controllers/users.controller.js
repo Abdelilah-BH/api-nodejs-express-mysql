@@ -1,5 +1,5 @@
 const db = require("../models");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = db.users;
 const Op = db.Sequelize.Op;
@@ -21,7 +21,7 @@ exports.signUp = async (req, res) => {
     });
     res.json(data);
   } catch (err) {
-    res.status(500).send("Some error occurred while creating a user.");
+    return res.status(500).send("Some error occurred while creating a user.");
   }
 };
 
@@ -40,10 +40,11 @@ exports.login = async (req, res) => {
     }
     const { id, name, email, password, role } = user;
     const compare = bcrypt.compareSync(pswd, password);
+    console.log({compare});
     if (!compare) {
       return res.status(401).send("Incorrect password");
     }
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
       {
         id,
         email,
@@ -53,7 +54,7 @@ exports.login = async (req, res) => {
     );
     return res.status(200).json({
       data: { id, name, email, role },
-      token,
+      accessToken,
     });
   } catch (err) {
     res.status(500).send("Some error occurred while find a user.");
