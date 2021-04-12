@@ -1,7 +1,6 @@
 const express = require("express");
 const config = require("config");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 require("dotenv").config();
 const db = require("./models/index");
 const morgan = require("morgan");
@@ -19,8 +18,8 @@ const app = express();
 app.use(cors(corsOptions));
 
 app.use(helmet());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 if (app.get("env") === "developement")
   app.use(morgan('tiny'))

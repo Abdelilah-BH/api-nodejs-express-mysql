@@ -5,68 +5,43 @@ const User = db.users;
 const Op = db.Sequelize.Op;
 
 // Create and save a new User.
-exports.signUp = (req, res) => {
-  const { name, email, password, phone, role } = req.body;
-  if (!name || !email || !password) {
-    res.status(400).json({
-      message: "Content can not be empty!",
-    });
-    return;
-  }
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) {
-      res.status(500).json({
-        message: err || "Some error occurred while creating a user.",
-      });
+exports.signUp = async (req, res) => {
+  try {
+    const { name, email, password, phone, role } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).send("Content can not be empty!");
     }
-    bcrypt.hash(password, salt, async (err, hash) => {
-      if (err) {
-        res.status(500).json({
-          message: err || "Some error occurred while creating a user.",
-        });
-      }
-      try {
-        const data = await User.create({
-          name,
-          email,
-          password: hash,
-          phone,
-          role,
-        });
-        res.json(data);
-      } catch (err) {
-        res.status(500).json({
-          message: err.message || "Some error occurred while creating a user.",
-        });
-      }
+    const cryptedPassword = bcrypt.hashSync(password, 12);
+    const data = await User.create({
+      name,
+      email,
+      password: cryptedPassword,
+      phone,
+      role,
     });
-  });
+    res.json(data);
+  } catch (err) {
+    res.status(500).send("Some error occurred while creating a user.");
+  }
 };
 
 // Login.
 exports.login = async (req, res) => {
-  const { email: emailUser, password: pswd } = req.body;
-  if (!emailUser || !pswd) {
-    res.status(400).json({
-      message: "Content can not be empty!",
-    });
-    return;
-  }
   try {
+    const { email: emailUser, password: pswd } = req.body;
+    if (!emailUser || !pswd) {
+      return res.status(400).send("Content can not be empty!");
+    }
     const user = await User.findOne({
       where: { email: emailUser },
     });
     if (!user) {
-      return res.status(401).json({
-        message: "E-mail not found",
-      });
+      return res.status(401).send("E-mail not found");
     }
     const { id, name, email, password, role } = user;
-    const checkPassword = await bcrypt.compare(pswd, password);
-    if (!checkPassword) {
-      return res.status(403).json({
-        message: "Password incorrect!",
-      });
+    const compare = bcrypt.compareSync(pswd, password);
+    if (!compare) {
+      return res.status(401).send("Incorrect password");
     }
     const token = jwt.sign(
       {
@@ -76,18 +51,12 @@ exports.login = async (req, res) => {
       process.env.TOKEN_KEY,
       { expiresIn: "1h" }
     );
-    res.cookie("token", token, { expiresIn: new Date() + 3600000});
-    return res
-      .status(200)
-      .json({
-        message: "Authentication successful!",
-        data: { id, name, email, role },
-        token,
-      });
-  } catch (err) {
-    res.status(500).json({
-      message: err.message || "Some error occurred while find a user.",
+    return res.status(200).json({
+      data: { id, name, email, role },
+      token,
     });
+  } catch (err) {
+    res.status(500).send("Some error occurred while find a user.");
   }
 };
 
