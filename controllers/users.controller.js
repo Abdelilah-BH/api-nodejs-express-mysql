@@ -21,6 +21,7 @@ exports.signUp = async (req, res) => {
     });
     res.json(data);
   } catch (err) {
+    console.error({ err })
     return res.status(500).send("Some error occurred while creating a user.");
   }
 };
@@ -39,7 +40,7 @@ exports.login = async (req, res) => {
       return res.status(401).send("E-mail not found");
     }
     const { id, name, email, password, role } = user;
-    const compare = bcrypt.compareSync(pswd, password);
+    const compare = bcrypt.compare(pswd, password());
     console.log({compare});
     if (!compare) {
       return res.status(401).send("Incorrect password");
