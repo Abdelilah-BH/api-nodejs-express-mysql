@@ -63,12 +63,16 @@ exports.login = async (req, res) => {
 };
 
 // Retrieve all users from the database.
+// TODO
 exports.findAll = (req, res) => {
-  //
+  console.log({ data: req.body })
+  return res.status(200).send(req.user);
 };
 
 // Update a user by the id in the request
+// TODO
 exports.update = (req, res) => {};
 
 // Delete a user with the specified id in the request
+// TODO
 exports.delete = (req, res) => {};

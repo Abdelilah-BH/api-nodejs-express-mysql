@@ -6,6 +6,8 @@ router.post("/signup", users.signUp);
 
 router.post("/login", users.login);
 
+router.post("/", authenticateToken, users.findAll)
+
 module.exports = (app) => {
   app.use("/api/users", router)
 }

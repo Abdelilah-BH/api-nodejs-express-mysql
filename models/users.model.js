@@ -1,5 +1,5 @@
 const { setPassword } = require("../helpers/user")
-module.exports = (sequelize, {DataTypes}) => {
+module.exports = (sequelize, { DataTypes }) => {
   const User = sequelize.define("User", {
     id: {
       type: DataTypes.UUID,
