@@ -41,7 +41,6 @@ exports.login = async (req, res) => {
     }
     const { id, name, email, password, role } = user;
     const compare = bcrypt.compare(pswd, password());
-    console.log({compare});
     if (!compare) {
       return res.status(401).send("Incorrect password");
     }
@@ -49,6 +48,7 @@ exports.login = async (req, res) => {
       {
         id,
         email,
+        role
       },
       process.env.TOKEN_KEY,
       { expiresIn: "1h" }
@@ -64,9 +64,9 @@ exports.login = async (req, res) => {
 
 // Retrieve all users from the database.
 // TODO
-exports.findAll = (req, res) => {
-  console.log({ data: req.body })
-  return res.status(200).send(req.user);
+exports.findAll = async (req, res) => {
+  const allUsers = await User.findAll();
+  return res.status(200).send(allUsers);
 };
 
 // Update a user by the id in the request

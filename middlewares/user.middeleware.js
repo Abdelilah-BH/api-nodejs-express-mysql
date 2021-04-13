@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const db = require("../models");
+const Permission = db.permissions;
 
 // Get access token and check if is valid.
 const authenticateToken = (req, res, next) => {
@@ -10,14 +12,20 @@ const authenticateToken = (req, res, next) => {
     if (!decoded) {
       return res.status(401).send("Unauthorized");
     }
-    const { id, email } = decoded;
-    req.user= { id, email };
+    const { id, email, role } = decoded;
+    req.user= { id, email, role };
     next();
   } catch (err) {
     console.error(err.message);
     return res.status(401).send(err.message);
   }
 };
+
+const Authorization = () => (req, res, next) => {
+  const { role } = req.user;
+  // const permission = Permission.findAll({ attributes: [id, role, action], where: { role_id:  }})
+  // 
+}
 
 module.exports = {
   authenticateToken,
