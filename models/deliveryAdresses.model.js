@@ -35,6 +35,10 @@ module.exports = (sequelize, { Sequelize, DataTypes}) => {
   },
   userId: {
     type: DataTypes.UUID,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    },
     references: {
       model: "users",
       key: "id",

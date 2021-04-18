@@ -1,16 +1,18 @@
-const { setPassword } = require("../helpers/user")
+const { setPassword } = require("../helpers/user");
+
 module.exports = (sequelize, { DataTypes }) => {
-  const User = sequelize.define("User", {
+  const User = sequelize.define("user", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
-      primaryKey: true,
-      unique: true
+      primaryKey: true
     },
     name: {
       type: DataTypes.STRING,
-        allowNull: false,
+      allowNull: false,
+      validate: {
         notEmpty: true
+      }
     },
     email: {
       type: DataTypes.STRING,
@@ -38,8 +40,12 @@ module.exports = (sequelize, { DataTypes }) => {
     },
   })
 
+
   User.beforeCreate(setPassword);
   User.beforeUpdate(setPassword);
 
+  User.associate = (models) => {
+    User.hasMany(models.contact, { as: "contacts" });
+  }
   return User;
 }
