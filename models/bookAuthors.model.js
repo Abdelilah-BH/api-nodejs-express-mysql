@@ -1,5 +1,5 @@
 module.exports = (sequelize, { Sequelize ,DataTypes }) => {
-  const BookAuthors = sequelize.define("bookAuthors", {
+  const BookAuthors = sequelize.define("book_authors", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,

@@ -1,5 +1,5 @@
 module.exports = (sequelize, { Sequelize, DataTypes}) => {
-  const DeliveryAdresses = sequelize.define("user_delivery_Adresses", {
+  const DeliveryAdresses = sequelize.define("user_delivery_adresses", {
     id: {
     type: DataTypes.STRING,
     defaultValue: DataTypes.UUIDV1,
