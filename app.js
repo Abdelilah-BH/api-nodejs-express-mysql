@@ -29,7 +29,7 @@ db.sequelize
   .then(function(results) {
     db.sequelize.sync({ force: true }).then(function(err) {
       console.log('It worked!');
-    }, function (err) { 
+    }, function (err) {
       console.error('An error occurred while creating the table:', err);
     });
   })

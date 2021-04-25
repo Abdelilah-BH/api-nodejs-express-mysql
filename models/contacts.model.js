@@ -1,5 +1,5 @@
 module.exports = (sequelize, { Sequelize, DataTypes }) => {
-  const Contact = sequelize.define("contact", {
+  const Contact = sequelize.define("contacts", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -44,9 +44,8 @@ module.exports = (sequelize, { Sequelize, DataTypes }) => {
     },
   });
 
-  Contact.associate = (models) => {
-    console.log({ models });
-    Contact.belongsTo(models.user, {
+  Contact.associate = ({ users }) => {
+    Contact.belongsTo(users, {
       foreignKey: "userId",
       as: "user",
       onDelete: "CASCADE",

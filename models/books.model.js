@@ -1,5 +1,5 @@
 module.exports = (sequelize, { DataTypes }) => {
-  const Book = sequelize.define("book", {
+  const Book = sequelize.define("books", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -86,8 +86,19 @@ module.exports = (sequelize, { DataTypes }) => {
     isAvailable: {
       type: DataTypes.BOOLEAN,
       default: false
+    },
+    collectionId: {
+      type: DataTypes.UUID,
+    },
+    categoryId: {
+      type: DataTypes.UUID,
     }
   })
+
+  Book.associate = ({ authors }) => {
+    Book.belongsToMany(authors, { through: "book_authors"});
+    Book.hasMany(authors);
+  }
 
   return Book;
 }

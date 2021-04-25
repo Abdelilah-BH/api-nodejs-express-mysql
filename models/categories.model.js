@@ -1,5 +1,5 @@
 module.exports = (sequelize, { Sequelize, DataTypes }) => {
-  const Category = sequelize.define("category", {
+  const Category = sequelize.define("categories", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -29,6 +29,8 @@ module.exports = (sequelize, { Sequelize, DataTypes }) => {
       }
     }
   });
+
+  // Category.
 
   return Category;
 }

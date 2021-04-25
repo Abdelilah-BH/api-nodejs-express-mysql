@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, { DataTypes }) => {
-  const Author = sequelize.define("author", {
+  const Author = sequelize.define("authors", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -25,6 +25,11 @@ module.exports = (sequelize, { DataTypes }) => {
       is: /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})$/i
     }
   })
+
+  Author.associate = ({ books }) => {
+    Author.belongsToMany(books, { through: "book_authors"});
+    Author.hasMany(books);
+  }
 
   return Author
 }
