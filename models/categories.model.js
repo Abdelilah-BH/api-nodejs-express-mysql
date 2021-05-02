@@ -23,14 +23,17 @@ module.exports = (sequelize, { Sequelize, DataTypes }) => {
     parentId: {
       type: DataTypes.UUID,
       references: {
-        model: "category",
+        model: "categories",
         key: "id",
         deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
       }
     }
   });
 
-  // Category.
+  Category.associate = ({ books }) => {
+    Category.belongsToMany(books, { through: "book_categories" });
+  }
+
 
   return Category;
 }

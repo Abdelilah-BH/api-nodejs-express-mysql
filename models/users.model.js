@@ -41,7 +41,7 @@ module.exports = (sequelize, { DataTypes }) => {
   })
 
   User.associate = ({ contacts }) => {
-    User.hasMany(contacts, { as: "contacts" });
+    User.hasMany(contacts);
   }
 
   User.beforeCreate(setPassword);

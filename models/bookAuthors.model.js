@@ -7,6 +7,5 @@ module.exports = (sequelize, { Sequelize ,DataTypes }) => {
     },
   })
 
-
   return BookAuthors;
 } 

@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
@@ -25,14 +27,15 @@ fs.readdirSync(__dirname)
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize);
-    console.log({ model: model.name })
     db[model.name] = model;
   });
 
 Object.keys(db).forEach(modelName => {
   if ("associate" in db[modelName]) {
+    console.log(db[modelName])
     db[modelName].associate(db);
   }
+  console.log("1")
 });
 
 module.exports = db;

@@ -1,5 +1,6 @@
+
 module.exports = (sequelize, { DataTypes }) => {
-  const Collection = sequelize.define("collections", {
+  const Publisher = sequelize.define("publisher", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -20,11 +21,11 @@ module.exports = (sequelize, { DataTypes }) => {
         max: 255,
       }
     }
-  });
+  })
 
-  Collection.associate = ({ books }) => {
-    Collection.belongsToMany(books, { through: "book_collections" });
+  Publisher.associate = ({ books }) => {
+    Publisher.belongsToMany(books, { through: "book_publishers"});
   }
-  
-  return Collection;
+
+  return Publisher;
 }
