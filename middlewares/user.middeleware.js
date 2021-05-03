@@ -22,7 +22,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 const Authorization = () => (req, res, next) => {
-  const { role } = req.user;
+  // const { role } = req.user;
   // const permission = Permission.findAll({ attributes: [id, role, action], where: { role_id:  }})
   // 
 }

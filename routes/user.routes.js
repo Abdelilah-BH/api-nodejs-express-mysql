@@ -1,13 +1,15 @@
 const router = require("express").Router();
-const users = require("../controllers/users.controller");
+const { signUp, login, findAll, findOne } = require("../controllers/users.controller");
 const { authenticateToken } = require("../middlewares/user.middeleware");
 
-router.post("/signup", users.signUp);
+router.post("/signup", signUp);
 
-router.post("/login", users.login);
+router.post("/login", login);
 
-router.get("/", authenticateToken, users.findAll)
+router.get("/", authenticateToken, findAll);
+
+router.get("/:id", authenticateToken, findOne);
 
 module.exports = (app) => {
-  app.use("/api/users", router)
+  app.use("/api/users", router);
 }
