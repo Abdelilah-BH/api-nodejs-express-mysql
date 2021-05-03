@@ -5,7 +5,8 @@ require("dotenv").config();
 const db = require("./models/index");
 const morgan = require("morgan");
 const helmet = require("helmet");
-const userRouter = require("./routes/user.routes");
+const userRouters = require("./routes/user.routes");
+const bookRouters = require("./routes/book.routes");
 
 const { PORT } = process.env;
 
@@ -26,7 +27,7 @@ if (app.get("env") === "developement")
 
 db.sequelize
   .query('SET FOREIGN_KEY_CHECKS = 0', {raw: true})
-  .then(function(results) {
+  .then(function() {
     db.sequelize.sync({ force: true }).then(function(err) {
       console.log('It worked!');
     }, function (err) {
@@ -34,7 +35,8 @@ db.sequelize
     });
   })
 
-userRouter(app);
+userRouters(app);
+bookRouters(app);
 
 
 app.listen(PORT, () => {

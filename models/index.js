@@ -32,10 +32,8 @@ fs.readdirSync(__dirname)
 
 Object.keys(db).forEach(modelName => {
   if ("associate" in db[modelName]) {
-    console.log(db[modelName])
     db[modelName].associate(db);
   }
-  console.log("1")
 });
 
 module.exports = db;

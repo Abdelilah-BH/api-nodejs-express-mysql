@@ -40,53 +40,75 @@ module.exports = (sequelize, { DataTypes }) => {
     },
     pages: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       validate: {
+        notEmpty: false,
         isInt: true,
       },
     },
     height: {
       type: DataTypes.FLOAT,
+      allowNull: true,
       validate: {
+        notEmpty: false,
         isFloat: true,
       },
     },
     width: {
       type: DataTypes.FLOAT,
+      allowNull: true,
       validate: {
+        notEmpty: false,
         isFloat: true,
       },
     },
     thickness: {
       type: DataTypes.FLOAT,
+      allowNull: true,
       validate: {
+        notEmpty: false,
         isFloat: true,
       },
     },
     weight: {
       type: DataTypes.FLOAT,
+      allowNull: true,
       validate: {
+        notEmpty: false,
         isFloat: true,
       },
     },
     format: {
       type: DataTypes.STRING,
+      allowNull: true,
       validate: {
+        notEmpty: false,
         isIn: [["livre de Poche", "digest", "roman A5", "A4"]],
       },
     },
     language: {
       type: DataTypes.STRING,
+      allowNull: true,
       validate: {
+        notEmpty: false,
         isIn: [["francais", "anglais", "arabe"]],
       },
     },
     image: {
       type: DataTypes.STRING,
+      allowNull: true,
       defaultValue: "/public/images/authors/default.jpg",
+      validate: {
+        notEmpty: false,
+      }
     },
     isAvailable: {
       type: DataTypes.BOOLEAN,
       default: false,
+      allowNull: true,
+      validate: {
+        notEmpty: false,
+      }
     },
   });
 
