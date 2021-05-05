@@ -56,8 +56,9 @@ const login = async (req, res) => {
       data: { id, name, email, role },
       accessToken,
     });
-  } catch (err) {
-    res.status(500).send("Some error occurred while find a user.");
+  } catch ({ message }) {
+    console.err({ message });
+    return res.status(500).send("Some error occurred while find a user.");
   }
 };
 
@@ -74,7 +75,7 @@ const findAll = async (req, res) => {
     const response = getPaginationData(users, page, limit);
     return res.status(200).send(response);  
   } catch({ message }) {
-    console.log({ message });
+    console.err({ message });
     return res.status(500).send("Error server");
   }
 };

@@ -65,7 +65,7 @@ const findOne = async (req, res) => {
     }
     return res.status(200).json({ book });
   } catch({ message }) {
-    console.log({ message });
+    console.error({ message });
     return res.status(500).send("Error server");
   }
 
