@@ -51,7 +51,7 @@ const findAll = async (req, res) => {
     const response = getPaginationData(books, page, limit);
     return res.status(200).json(response);
   } catch({ message }) {
-    console.log({ message });
+    console.error({ message });
     return res.status(500).send("Error server");
   }
 };
