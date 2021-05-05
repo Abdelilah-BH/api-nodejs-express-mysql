@@ -64,8 +64,19 @@ const login = async (req, res) => {
 // Retrieve all users from the database.
 // TODO
 const findAll = async (req, res) => {
-  const allUsers = await User.findAll();
-  return res.status(200).send(allUsers);
+  try{
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(size, page);
+    const users = await User.findAndCountAll({
+      limit,
+      offset
+    });
+    const response = getPaginationData(users, page, limit);
+    return res.status(200).send(response);  
+  } catch({ message }) {
+    console.log({ message });
+    return res.status(500).send("Error server");
+  }
 };
 
 const findOne = async (req, res) => {
