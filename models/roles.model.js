@@ -13,9 +13,9 @@ module.exports = (sequelize, { DataTypes }) => {
     }
   });
 
-  Role.associate(({ permissions }) => {
-    Role.belongsToMany(permissions, { through: "rolePermissions" })
-  })
+  Role.associate = ({ permissions }) => {
+    Role.belongsToMany(permissions, { through: "role_permissions" })
+  };
 
 
   return Role;
