@@ -68,11 +68,22 @@ const findOne = async (req, res) => {
     console.error({ message });
     return res.status(500).send("Error server");
   }
-
 }
+
+const destroy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedBook = await Book.destroy({ where: { id } });
+    return res.status(200).send({ deletedBook });
+  } catch({ message }) {
+    console.error({ message });
+    return res.status(500).send("Error server");
+  }
+};
 
 module.exports = {
   add,
   findAll,
-  findOne
+  findOne,
+  destroy
 };
