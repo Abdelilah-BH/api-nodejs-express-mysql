@@ -39,8 +39,20 @@ const findOne = async (req, res) => {
   }
 };
 
+const destroy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedAuthor = await Author.destroy({ where: { id } });
+    return res.status(200).send({ deletedAuthor });
+  } catch({ message }) {
+    console.error({ message });
+    return res.status(500).send("Error server");
+  }
+};
+
 module.exports = {
   add,
   findAll,
   findOne,
+  destroy
 };
